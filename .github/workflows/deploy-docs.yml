@@ -30,17 +30,17 @@ jobs:
 
       - name: Deploy to gh-pages
         run: |
-          # Certifique-se de que você tem uma cópia atualizada da branch remota
-          git fetch origin gh-pages
-          
-          # Certifique-se de estar no branch gh-pages
-          git switch gh-pages
-          
           # Crie um diretório temporário para os arquivos HTML
           mkdir temp-html
           
           # Copie apenas os arquivos HTML gerados para o diretório temporário
           cp -r docs/build/html/* temp-html/
+          
+          # Certifique-se de que você tem uma cópia atualizada da branch remota
+          git fetch origin gh-pages
+          
+          # Certifique-se de estar no branch gh-pages
+          git switch gh-pages
           
           # Limpe o conteúdo atual da branch gh-pages
           git rm -r ./*
