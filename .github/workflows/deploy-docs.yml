@@ -28,35 +28,10 @@ jobs:
         run: |
           make -C docs html
 
-      - name: Deploy to gh-pages
-        run: |
-          # Crie um diretório temporário para os arquivos HTML
-          mkdir temp-html
-          
-          # Copie apenas os arquivos HTML gerados para o diretório temporário
-          cp -r docs/build/html/* temp-html/
-          
-          # Certifique-se de que você tem uma cópia atualizada da branch remota
-          git fetch origin gh-pages
-          
-          # Certifique-se de estar no branch gh-pages
-          git switch gh-pages
-          
-          # Limpe o conteúdo atual da branch gh-pages
-          git rm -r ./*
-          
-          # Copie os arquivos HTML do diretório temporário para a branch gh-pages
-          cp -r temp-html/* ./
-          
-          # Adicione os novos arquivos
-          git add .
-          
-          # Configure o nome e email do usuário para o commit
-          git config user.name "GitHub Actions"
-          git config user.email "actions@users.noreply.github.com"
-          
-          # Faça um commit com a mensagem apropriada
-          git commit -m "Update documentation"
-          
-          # Faça push das alterações para a branch gh-pages
-          git push origin gh-pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          publish_branch: gh-pages
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: build/html/
+          force_orphan: true
