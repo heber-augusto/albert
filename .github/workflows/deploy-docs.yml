@@ -30,7 +30,6 @@ jobs:
       - name: Deploy to gh-pages
         run: |
           git checkout -b gh-pages
-          rm -rf *
           cp -r docs/build/html/* .
           git add .
           git config user.name "GitHub Actions"
