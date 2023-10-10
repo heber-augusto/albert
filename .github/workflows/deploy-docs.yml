@@ -30,6 +30,7 @@ jobs:
       - name: Deploy to gh-pages
         run: |
           git checkout -b gh-pages
+          git push --set-upstream origin gh-pages
           cp -r docs/build/html/* .
           git add .
           git config user.name "GitHub Actions"
