@@ -12,7 +12,7 @@ def minha_funcao(parametro):
 def main():
     import sys
     if len(sys.argv) != 3:
-        print("Uso: meubiblioteca comando1 parametro1")
+        print("Uso: albert comando1 parametro1")
         sys.exit(1)
     
     comando = sys.argv[1]
