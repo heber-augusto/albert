@@ -34,7 +34,7 @@ jobs:
           git fetch origin gh-pages
           
           # Certifique-se de estar no branch gh-pages
-          git checkout gh-pages
+          git switch gh-pages
           
           # Crie um diretório temporário para os arquivos HTML
           mkdir temp-html
