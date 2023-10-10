@@ -1,25 +1,25 @@
-# meu_biblioteca.py
+# albert.py
 
-def minha_funcao(parametro):
+def create_job_type(job_type):
     """
-    Esta é uma função de exemplo que utiliza o parâmetro fornecido.
+    Esta é uma função para criar jobs.
 
-    :param parametro: O parâmetro a ser utilizado na função.
+    :param job_type: O tipo de job a ser criado.
     :type parametro: str
     """
-    print(f"Função minha_funcao chamada com o parâmetro: {parametro}")
+    print(f"Criação de job do tipo {job_type}")
 
 def main():
     import sys
     if len(sys.argv) != 3:
-        print("Uso: albert comando1 parametro1")
+        print("Uso: albert comando parametro1..N")
         sys.exit(1)
     
     comando = sys.argv[1]
     parametro = sys.argv[2]
 
-    if comando == "abert":
-        minha_funcao(parametro)
+    if comando == "create":
+        create_job_type(parametro)
     else:
         print("Comando desconhecido")
 
