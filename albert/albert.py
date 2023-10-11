@@ -12,7 +12,7 @@ def create_job_type(job_type):
 def main():
     import sys
     if len(sys.argv) != 3:
-        print("Uso: albert comando parametro1..N")
+        print("Uso: albert <comando> [<parametro 1> <parametro 2> ... <parametro N>")
         sys.exit(1)
     
     comando = sys.argv[1]
