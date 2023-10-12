@@ -1,0 +1,25 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.x  # Especifique a versão do Python que você precisa
+
+    - name: Install dependencies
+      run: pip install -r requirements.txt  # Substitua pelo caminho correto do seu arquivo requirements.txt
+
+    - name: Run Tests
+      run: pytest  # Substitua pelo comando correto para executar seus testes

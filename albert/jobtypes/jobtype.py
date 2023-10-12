@@ -36,11 +36,17 @@ class JobType:
         Args:
             destination_folder (str): Caminho para a pasta de destino.
         """
+        # Obtém o diretório do arquivo jobtype.py
+        jobtype_directory = os.path.dirname(os.path.abspath(__file__))
+
+        # Concatena o caminho do template com o diretório do arquivo jobtype.py
+        template_path = os.path.join(jobtype_directory, self.template_path)
+
         jobtype_folder = os.path.join(destination_folder, self.name)
         os.makedirs(jobtype_folder, exist_ok=True)
 
-        for file in os.listdir(self.template_path):
-            src = os.path.join(self.template_path, file)
+        for file in os.listdir(template_path):
+            src = os.path.join(template_path, file)
             dest = os.path.join(jobtype_folder, file)
             shutil.copy(src, dest)
 
@@ -69,7 +75,7 @@ class JobType:
         if result is None or result == 0:
             print(f'Testes para {self.name} passaram com sucesso.')
         else:
-            print(f'Testes para {self.name} falharam.')
+            raise Exception(f'Testes para {self.name} falharam.')
 
 class InferenceJobType(JobType):
     """
