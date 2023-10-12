@@ -1,27 +1,29 @@
 # albert.py
 
-def create_job_type(job_type):
-    """
-    Esta é uma função para criar jobs.
-
-    :param job_type: O tipo de job a ser criado.
-    :type parametro: str
-    """
-    print(f"Criação de job do tipo {job_type}")
+from jobcommands.jobcommand import *
 
 def main():
-    import sys
-    if len(sys.argv) != 3:
-        print("Uso: albert <comando> [<parametro 1> <parametro 2> ... <parametro N>")
-        sys.exit(1)
-    
-    comando = sys.argv[1]
-    parametro = sys.argv[2]
+    parser = argparse.ArgumentParser(description="Comandos para gerenciamento de job types.")
+    subparsers = parser.add_subparsers(dest="command", help="Comandos disponíveis.")
 
-    if comando == "create":
-        create_job_type(parametro)
-    else:
-        print("Comando desconhecido")
+    commands = [
+        CreateCommand,
+        CheckCommand,
+        RunCommand,
+        DeployCommand,
+        TestCommand
+    ]
+
+    for command_class in commands:
+        command = command_class(None)
+        command.add_parser(subparsers)
+
+    args = parser.parse_args()
+
+    if args.command:
+        command_class = globals()[f'{args.command.capitalize()}Command']
+        command = command_class(args)
+        command.execute()
 
 if __name__ == "__main__":
     main()
