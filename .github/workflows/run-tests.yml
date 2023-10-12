@@ -21,14 +21,7 @@ jobs:
     - name: Install dependencies
       run: pip install -r requirements.txt  # Substitua pelo caminho correto do seu arquivo requirements.txt
 
-    - name: Change working directory
-      run: |
-        cd $GITHUB_WORKSPACE  # Mude para o diretório de trabalho do GitHub Actions
-        cd ..
-        ls -la
-        pwd
-
     - name: Run Tests
+      working-directory: ../
       run: |
-        cd $GITHUB_WORKSPACE  # Mude para o diretório de trabalho do GitHub Actions
         pytest  # Substitua pelo comando correto para executar seus testes
