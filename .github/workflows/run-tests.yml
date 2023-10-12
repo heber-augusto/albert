@@ -22,7 +22,6 @@ jobs:
       run: pip install -r requirements.txt  # Substitua pelo caminho correto do seu arquivo requirements.txt
 
     - name: Run Tests
-      working-directory: ../
       run: |
         ls -la
         pytest  # Substitua pelo comando correto para executar seus testes
