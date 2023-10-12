@@ -29,4 +29,6 @@ jobs:
         pwd
 
     - name: Run Tests
-      run: pytest  # Substitua pelo comando correto para executar seus testes
+      run: |
+        cd $GITHUB_WORKSPACE  # Mude para o diretório de trabalho do GitHub Actions
+        pytest  # Substitua pelo comando correto para executar seus testes
