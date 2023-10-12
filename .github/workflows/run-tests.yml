@@ -24,4 +24,5 @@ jobs:
     - name: Run Tests
       working-directory: ../
       run: |
+        ls -la
         pytest  # Substitua pelo comando correto para executar seus testes
