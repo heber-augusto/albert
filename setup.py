@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="albert",
-    version="0.1b",
+    version="0.1c",
     packages=find_packages(),
     install_requires=[
         # Liste suas dependências aqui, por exemplo:
@@ -15,6 +15,7 @@ setup(
             "albert = albert.albert:main"
         ]
     },
+    include_package_data=True,
     author="Heber A. Scachetti",
     author_email="heber.augusto@gmail.com",
     description="Uma biblioteca Python para facilitar a criação de pipelines de modelos de Generative AI",
