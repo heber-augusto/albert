@@ -6,8 +6,9 @@ setup(
     version="0.1rc6",
     packages=find_packages(),
     package_data={
-        "albert.jobtypes.templates": ["*/*/*"]
-    },    
+        "albert.jobtypes.templates": ["*.*"]
+    },
+    include_package_data = True,    
     install_requires=[
         "setuptools-git",
     ],
