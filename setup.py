@@ -3,18 +3,17 @@ from setuptools import setup, find_packages
 
 setup(
     name="albert",
-    version="0.1rc2",
+    version="0.1rc3",
     packages=find_packages(),
     install_requires=[
-        # Liste suas dependências aqui, por exemplo:
-        # "numpy>=1.18",
-        # "matplotlib>=3.2"
+        "setuptools-git",
     ],
     entry_points={
         "console_scripts": [
             "albert = albert.albert:main"
         ]
     },
+    include_package_data=True,
     author="Heber A. Scachetti",
     author_email="heber.augusto@gmail.com",
     description="Uma biblioteca Python para facilitar a criação de pipelines de modelos de Generative AI",
