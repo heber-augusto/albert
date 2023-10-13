@@ -24,4 +24,4 @@ jobs:
     - name: Run Tests
       run: |
         ls -la
-        pytest  # Substitua pelo comando correto para executar seus testes
+        python -m pytest
