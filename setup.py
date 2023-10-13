@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="albert",
-    version="0.1rc6",
+    version="0.2rc0",
     packages=find_packages(),
     package_data={
         "albert.jobtypes.templates": ["*.*"]
