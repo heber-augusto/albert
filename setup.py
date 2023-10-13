@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="albert",
-    version="0.1rc0",
+    version="0.1rc2",
     packages=find_packages(),
     install_requires=[
         # Liste suas dependências aqui, por exemplo:
