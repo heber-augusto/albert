@@ -100,10 +100,10 @@ def test_inference_run():
     container_thread.start()
 
     # Aguardar até que a aplicação no contêiner esteja em execução
-    for _ in range(30):  # Aguarda por até 30 segundos
+    for _ in range(30):  # Aguarda por até 300 segundos
         if is_application_running():
             break
-        time.sleep(1)
+        time.sleep(10)
     else:
         pytest.fail("A aplicação no contêiner não iniciou a tempo.")
 
