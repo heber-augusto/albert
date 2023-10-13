@@ -2,7 +2,7 @@ from albert.jobtypes.jobtype import JobType
 
 def test_jobtype_create():
     # Teste de criação de JobType
-    job_type = JobType('test_job')
+    job_type = JobType(name='test_job', type='default')
     destination_folder = 'test_destination'
     try:
         job_type.create(destination_folder)
@@ -12,25 +12,27 @@ def test_jobtype_create():
 
 def test_jobtype_run():
     # Teste de execução de JobType
-    job_type = JobType('test_job')
+    job_type = JobType(name='test_job', type='default')
     try:
-        job_type.run()
+        destination_folder = 'test_destination'
+        job_type.run(destination_folder)
         assert False, "Método run não gerou exceção"
     except NotImplementedError:
         pass
 
 def test_jobtype_deploy():
     # Teste de deploy de JobType
-    job_type = JobType('test_job')
+    job_type = JobType(name='test_job', type='default')
     try:
-        job_type.deploy()
+        destination_folder = 'test_destination'
+        job_type.deploy(destination_folder)
         assert False, "Método deploy não gerou exceção"
     except NotImplementedError:
         pass
 
 def test_jobtype_check():
     # Teste de verificação de testes de JobType
-    job_type = JobType('test_job')
+    job_type = JobType(name='test_job', type='default')
     try:
         job_type.check()
         assert False, "Método check não gerou exceção"
