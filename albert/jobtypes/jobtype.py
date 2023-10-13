@@ -1,8 +1,8 @@
 import os
 import shutil
 import json
-import pytest
 import uuid
+import subprocess
 
 class JobType:
     """
@@ -12,7 +12,8 @@ class JobType:
         name (str): Nome do tipo de job.
 
     Attributes:
-        name (str): Nome do tipo de job.
+        name (str): Nome do job.
+        type (str): Tipo de job.
         uuid (str): UUID de identificação.
         config (dict): Dicionário de configuração.
 
@@ -22,11 +23,14 @@ class JobType:
         deploy(): Realiza o deploy do job.
         check(): Executa testes para o job type.
     """
-    def __init__(self, name: str):
+    def __init__(self, name: str, type: str):
         self.name = name
         self.uuid = str(uuid.uuid4())
+        self.type = type
         self.config = {
-            'uuid': self.uuid
+            'uuid': self.uuid,
+            'type': self.type,
+            'name': self.name
         }
 
     def create(self, destination_folder: str):
@@ -44,38 +48,57 @@ class JobType:
 
         jobtype_folder = os.path.join(destination_folder, self.name)
         os.makedirs(jobtype_folder, exist_ok=True)
-
-        for file in os.listdir(template_path):
-            src = os.path.join(template_path, file)
-            dest = os.path.join(jobtype_folder, file)
-            shutil.copy(src, dest)
+        shutil.copytree(
+            template_path, 
+            jobtype_folder, 
+            dirs_exist_ok = True)
 
         config_path = os.path.join(jobtype_folder, 'config.json')
         with open(config_path, 'w') as config_file:
             json.dump(self.config, config_file)
 
-    def run(self):
+    def run(self, destination_folder: str):
         """
         Executa o job. Deve ser implementado nas classes especializadas.
+        Args:
+            destination_folder (str): Caminho para a pasta onde o código do job está presente.        
         """
         raise NotImplementedError("Método run não implementado")
 
-    def deploy(self):
+    def deploy(self, destination_folder: str):
         """
         Realiza o deploy do job. Deve ser implementado nas classes especializadas.
+        Args:
+            destination_folder (str): Caminho para a pasta onde o código do job está presente.                
         """
         raise NotImplementedError("Método deploy não implementado")
 
-    def check(self):
+    def check(self, destination_folder: str):
         """
         Executa testes do job type. Utiliza pytest para verificar os testes na raiz da pasta do job type.
+        Args:
+            destination_folder (str): Caminho para a pasta onde o código do job está presente.             
         """
-        jobtype_folder = os.path.join(self.name)
-        result = pytest.main([jobtype_folder])
-        if result is None or result == 0:
+        jobtype_folder = os.path.join(destination_folder, self.name)
+        # Executa o comando e redireciona a saída para um objeto PIPE
+        pytest_process = subprocess.Popen(
+            [r'pytest', "-rf", "--tb=line"],
+            cwd=jobtype_folder,
+            stdout=subprocess.PIPE,  # Redireciona a saída padrão para um PIPE
+            text=True
+        )
+
+        # Lê a saída do comando
+        output, _ = pytest_process.communicate()
+
+        # Obtém o código de retorno do processo
+        return_code = pytest_process.returncode
+
+        if return_code is None or return_code == 0:
             print(f'Testes para {self.name} passaram com sucesso.')
         else:
-            raise Exception(f'Testes para {self.name} falharam.')
+            print(f'Testes para {self.name} falharam.')
+        return return_code, output
 
 class InferenceJobType(JobType):
     """
@@ -91,21 +114,64 @@ class InferenceJobType(JobType):
     """
     template_path = 'templates/inference'  # Caminho fixo para arquivos de template
 
-    def __init__(self, name: str, inference_model: str):
-        super().__init__(name)
-        self.config['inference_model'] = inference_model
+    def __init__(self, name: str):
+        super().__init__(
+            name=name,
+            type = 'inference')
 
-    def run(self):
+    def run(self, destination_folder: str):
         """
         Executa a inferência do modelo de inferência especificado.
+        Args:
+            destination_folder (str): Caminho para a pasta onde o código do job está presente.        
         """
-        print(f'Executando inferência do modelo: {self.config["inference_model"]}')
+        run_folder = os.path.join(destination_folder, self.name, 'source')
 
-    def deploy(self):
+        # Primeiro, construa a imagem Docker
+        build_command = ["docker", "build", "-t", f"albert-inference-job-{self.name}", "."]
+        subprocess.run(build_command, cwd=run_folder)
+
+        # Em seguida, execute o contêiner Docker
+        run_command = ["docker", "run", "-p","5000:5000", "-t", f"albert-inference-job-{self.name}"]
+        
+        run_process = subprocess.Popen(
+             run_command,
+             stdout=subprocess.PIPE,
+             stderr=subprocess.STDOUT,
+             text=True,
+             cwd=run_folder
+        )
+        # Aguarda a conclusão do processo ou sinal SIGINT (Ctrl+C)
+        output = ""
+        try:
+            # Leitura e exibição contínua da saída do contêiner
+            for line in run_process.stdout:
+                print(line, end='')
+                output += line
+
+            run_process.wait()
+        except KeyboardInterrupt:
+            # Tratamento de Ctrl+C
+            print("Recebido Ctrl+C. Encerrando o contêiner.")
+
+        # Obtém o código de retorno do processo
+        return_code = run_process.returncode
+
+        if return_code is None or return_code == 0:
+            print(f'Build para {self.name} concluído com sucesso.')
+        else:
+            print(f'Build para {self.name} falharam.')
+        return return_code, output
+
+
+
+    def deploy(self, destination_folder: str):
         """
         Realiza o deploy do modelo de inferência especificado.
+        Args:
+            destination_folder (str): Caminho para a pasta onde o código do job está presente.        
         """
-        print(f'Realizando deploy do modelo: {self.config["inference_model"]}')
+        print(f'Realizando deploy do modelo: {self.name}')
 
 class FineTuningJobType(JobType):
     """
@@ -121,19 +187,24 @@ class FineTuningJobType(JobType):
     """
     template_path = 'templates/finetuning'  # Caminho fixo para arquivos de template
 
-    def __init__(self, name: str, model_to_finetune: str):
-        super().__init__(name)
-        self.config['model_to_finetune'] = model_to_finetune
+    def __init__(self, name: str):
+        super().__init__(
+            name = name,
+            type = 'finetuning')
 
-    def run(self):
+    def run(self, destination_folder: str):
         """
         Executa o fine-tuning do modelo especificado.
+        Args:
+            destination_folder (str): Caminho para a pasta onde o código do job está presente.        
         """
         print(f'Executando fine-tuning do modelo: {self.config["model_to_finetune"]}')
 
-    def deploy(self):
+    def deploy(self, destination_folder: str):
         """
         Realiza o deploy do modelo fine-tuned especificado.
+        Args:
+            destination_folder (str): Caminho para a pasta onde o código do job está presente.        
         """
         print(f'Realizando deploy do modelo: {self.config["model_to_finetune"]}')
 
