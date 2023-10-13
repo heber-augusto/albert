@@ -24,4 +24,5 @@ jobs:
     - name: Run Tests
       run: |
         ls -la
-        python -m pytest
+        cd test
+        pytest
