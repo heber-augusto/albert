@@ -52,6 +52,7 @@ def test_inference_check():
         assert (retcode == 1)  # Método check está implementado
     except:
         assert False, "Método check não deveria gerar exceção"
+    os.chdir('../../')
     shutil.rmtree(destination_folder, ignore_errors=True)
     assert True
 
@@ -75,6 +76,7 @@ def threaded_run_command(**kwargs):
         assert (retcode == 0)  # Execução do container não gera erro
     except:
         assert False, "Método run não deveria gerar exceção"
+    os.chdir('../../')        
     shutil.rmtree(destination_folder, ignore_errors=True)
     assert True
 

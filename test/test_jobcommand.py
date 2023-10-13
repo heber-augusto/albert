@@ -27,6 +27,8 @@ def test_create_inference_command():
     assert inference_config['type'] == 'inference'
     assert inference_config['name'] == 'inference_test'
 
+    shutil.rmtree('inference_test', ignore_errors=True)    
+
 def test_check_inference_command():
 
     parser = load_and_config_parser()
@@ -44,7 +46,8 @@ def test_check_inference_command():
     # codigo de retorno dos testes é 1 (pois o teste falha pois funcoes do template estao vazias)
     assert output.find("test_load_generative_model - NotImplementedError") >= 0
     assert output.find("test_perform_inference - NotImplementedError") >= 0
-
+    os.chdir('../')
+    shutil.rmtree('inference_test', ignore_errors=True)
 
 # Função para iniciar o contêiner Docker em uma thread separada
 def threaded_run_inference_command(**kwargs):
@@ -69,6 +72,7 @@ def threaded_run_inference_command(**kwargs):
         assert (retcode == 0)  # Execução do container não gera erro
     except:
         assert False, "Método run não deveria gerar exceção"
+    os.chdir('../')        
     shutil.rmtree("inference_test", ignore_errors=True)
     assert True
 
