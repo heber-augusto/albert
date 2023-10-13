@@ -3,10 +3,10 @@ from setuptools import setup, find_packages
 
 setup(
     name="albert",
-    version="0.1rc4",
+    version="0.1rc5",
     packages=find_packages(),
     package_data={
-        "albert": ["jobtypes/templates/*"]  # Substitua "albert" pelo nome do seu pacote
+        "albert.jobtypes.templates": ["*"]
     },    
     install_requires=[
         "setuptools-git",
