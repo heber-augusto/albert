@@ -1,6 +1,6 @@
 # albert.py
 
-from jobcommands.jobcommand import *
+from albert.jobcommands.jobcommand import *
 
 def main():
     parser = load_and_config_parser()
