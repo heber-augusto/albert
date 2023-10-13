@@ -3,8 +3,11 @@ from setuptools import setup, find_packages
 
 setup(
     name="albert",
-    version="0.1rc3",
+    version="0.1rc4",
     packages=find_packages(),
+    package_data={
+        "albert": ["jobtypes/templates/*"]  # Substitua "albert" pelo nome do seu pacote
+    },    
     install_requires=[
         "setuptools-git",
     ],
@@ -13,7 +16,6 @@ setup(
             "albert = albert.albert:main"
         ]
     },
-    include_package_data=True,
     author="Heber A. Scachetti",
     author_email="heber.augusto@gmail.com",
     description="Uma biblioteca Python para facilitar a criação de pipelines de modelos de Generative AI",
