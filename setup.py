@@ -3,14 +3,14 @@ from setuptools import setup, find_packages
 
 setup(
     name="albert",
-    version="0.0.1rc0",
+    version="0.0.1rc1",
     packages=find_packages(),
     package_data={
         "albert.jobtypes.templates": ["*.*"]
     },
     include_package_data = True,    
     install_requires=[
-        "setuptools-git",
+        #
     ],
     entry_points={
         "console_scripts": [
