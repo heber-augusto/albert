@@ -1,5 +1,5 @@
 import shutil
-from albert.albert import main
+from albert.albert import handle_command
 from albert.jobcommands.jobcommand import (
     load_and_config_parser,
     load_config_json_to_dict)
@@ -7,7 +7,7 @@ from albert.jobcommands.jobcommand import (
 def test_main_inference_create():
     parser = load_and_config_parser()
     args = parser.parse_args(["create", "inference", "inference_test", '.'])
-    main(args)
+    handle_command(args)
 
     inference_config = load_config_json_to_dict('./inference_test/config.json')
     assert inference_config['type'] == 'inference'
