@@ -76,8 +76,6 @@ class JobType:
     def check(self):
         """
         Executa testes do job type. Utiliza pytest para verificar os testes na raiz da pasta do job type.
-        Args:
-            destination_folder (str): Caminho para a pasta onde o código do job está presente.             
         """
         # Executa o comando e redireciona a saída para um objeto PIPE
         pytest_process = subprocess.Popen(
