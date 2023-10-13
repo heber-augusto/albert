@@ -57,7 +57,7 @@ class JobType:
         with open(config_path, 'w') as config_file:
             json.dump(self.config, config_file)
 
-    def run(self, destination_folder: str):
+    def run(self):
         """
         Executa o job. Deve ser implementado nas classes especializadas.
         Args:
@@ -73,17 +73,15 @@ class JobType:
         """
         raise NotImplementedError("Método deploy não implementado")
 
-    def check(self, destination_folder: str):
+    def check(self):
         """
         Executa testes do job type. Utiliza pytest para verificar os testes na raiz da pasta do job type.
         Args:
             destination_folder (str): Caminho para a pasta onde o código do job está presente.             
         """
-        jobtype_folder = os.path.join(destination_folder, self.name)
         # Executa o comando e redireciona a saída para um objeto PIPE
         pytest_process = subprocess.Popen(
             [r'pytest', "-rf", "--tb=line"],
-            cwd=jobtype_folder,
             stdout=subprocess.PIPE,  # Redireciona a saída padrão para um PIPE
             text=True
         )
@@ -119,13 +117,13 @@ class InferenceJobType(JobType):
             name=name,
             type = 'inference')
 
-    def run(self, destination_folder: str):
+    def run(self):
         """
         Executa a inferência do modelo de inferência especificado.
         Args:
             destination_folder (str): Caminho para a pasta onde o código do job está presente.        
         """
-        run_folder = os.path.join(destination_folder, self.name, 'source')
+        run_folder = os.path.join('.', 'source')
 
         # Primeiro, construa a imagem Docker
         build_command = ["docker", "build", "-t", f"albert-inference-job-{self.name}", "."]
@@ -192,7 +190,7 @@ class FineTuningJobType(JobType):
             name = name,
             type = 'finetuning')
 
-    def run(self, destination_folder: str):
+    def run(self):
         """
         Executa o fine-tuning do modelo especificado.
         Args:

@@ -1,0 +1,5 @@
+Flask
+flasgger
+Flask-RESTful
+flask-swagger-ui
+gunicorn

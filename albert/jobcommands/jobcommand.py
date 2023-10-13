@@ -1,7 +1,20 @@
 import os
 import json
-import uuid
 import argparse
+
+from albert.jobtypes.jobtype import *
+
+job_type_name_2_class = {
+    'inference':InferenceJobType,
+    'finetuning':FineTuningJobType,    
+}
+
+ 
+def load_config_json_to_dict(json_path):
+    # Opening JSON file
+    with open(json_path) as json_file:
+        data = json.load(json_file)
+    return data
 
 class JobCommand:
     """
@@ -25,8 +38,8 @@ class JobCommand:
         Returns:
             class: A classe de job type associada ao nome especificado.
         """
-        job_type_module = __import__('jobtype', fromlist=[jobtype])
-        job_type_class = getattr(job_type_module, f'{jobtype.capitalize()}JobType')
+        job_type_class = job_type_name_2_class[jobtype]
+    
         return job_type_class
 
     def execute(self):
@@ -51,7 +64,7 @@ class CreateCommand(JobCommand):
         destination_folder = self.args.destination_folder
 
         job_type_class = self.get_job_class(jobtype)
-        job_type_instance = job_type_class(jobtype)
+        job_type_instance = job_type_class(folder_name)
 
         destination_folder = destination_folder or os.getcwd()
         job_type_instance.create(destination_folder)
@@ -73,11 +86,12 @@ class CheckCommand(JobCommand):
         super().__init__(args)
 
     def execute(self):
-        job_type = self.args.jobtype
+        config = load_config_json_to_dict('config.json')
+        job_type = config['type']
 
         job_type_class = self.get_job_class(job_type)
-        job_type_instance = job_type_class(job_type)
-        job_type_instance.check()
+        job_type_instance = job_type_class(config['name'])
+        return job_type_instance.check()
 
     def add_parser(self, subparsers):
         subparsers.add_parser("check", help="Verifica os testes do job type atual.")
@@ -93,11 +107,12 @@ class RunCommand(JobCommand):
         super().__init__(args)
 
     def execute(self):
-        job_type = self.args.jobtype
+        config = load_config_json_to_dict('config.json')
+        job_type = config['type']
 
         job_type_class = self.get_job_class(job_type)
-        job_type_instance = job_type_class(job_type)
-        job_type_instance.run()
+        job_type_instance = job_type_class(config['name'])
+        return job_type_instance.run()
 
     def add_parser(self, subparsers):
         subparsers.add_parser("run", help="Executa o job type atual.")
@@ -113,33 +128,29 @@ class DeployCommand(JobCommand):
         super().__init__(args)
 
     def execute(self):
-        job_type = self.args.jobtype
+        config = load_config_json_to_dict('config.json')
+        job_type = config['type']
 
         job_type_class = self.get_job_class(job_type)
-        job_type_instance = job_type_class(job_type)
-        job_type_instance.deploy()
+        job_type_instance = job_type_class(config['name'])
+        return job_type_instance.deploy()
 
     def add_parser(self, subparsers):
         subparsers.add_parser("deploy", help="Realiza o deploy do job type atual.")
 
-class TestCommand(JobCommand):
-    """
-    Comando para executar testes de um job type.
 
-    Args:
-        args: Argumentos da linha de comando.
-    """
-    def __init__(self, args):
-        super().__init__(args)
+def load_and_config_parser():
+    parser = argparse.ArgumentParser(description="Comandos para gerenciamento de job types.")
+    subparsers = parser.add_subparsers(dest="command", help="Comandos disponíveis.")
 
-    def execute(self):
-        job_type = self.args.jobtype
+    commands = [
+        CreateCommand,
+        CheckCommand,
+        RunCommand,
+        DeployCommand
+    ]
 
-        job_type_class = self.get_job_class(job_type)
-        job_type_instance = job_type_class(job_type)
-        job_type_instance.check()
-
-    def add_parser(self, subparsers):
-        subparsers.add_parser("test", help="Executa testes do job type atual.")
-
-
+    for command_class in commands:
+        command = command_class(None)
+        command.add_parser(subparsers)
+    return parser 

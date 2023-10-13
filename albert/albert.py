@@ -3,20 +3,7 @@
 from jobcommands.jobcommand import *
 
 def main():
-    parser = argparse.ArgumentParser(description="Comandos para gerenciamento de job types.")
-    subparsers = parser.add_subparsers(dest="command", help="Comandos disponíveis.")
-
-    commands = [
-        CreateCommand,
-        CheckCommand,
-        RunCommand,
-        DeployCommand,
-        TestCommand
-    ]
-
-    for command_class in commands:
-        command = command_class(None)
-        command.add_parser(subparsers)
+    parser = load_and_config_parser()
 
     args = parser.parse_args()
 

@@ -14,8 +14,7 @@ def test_jobtype_run():
     # Teste de execução de JobType
     job_type = JobType(name='test_job', type='default')
     try:
-        destination_folder = 'test_destination'
-        job_type.run(destination_folder)
+        job_type.run()
         assert False, "Método run não gerou exceção"
     except NotImplementedError:
         pass
