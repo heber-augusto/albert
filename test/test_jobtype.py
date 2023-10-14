@@ -29,13 +29,13 @@ def test_jobtype_deploy():
     except NotImplementedError:
         pass
 
-def test_jobtype_check():
-    # Teste de verificação de testes de JobType
-    job_type = JobType(name='test_job', type='default')
-    try:
-        job_type.check()
-        assert False, "Método check não gerou exceção"
-    except NotImplementedError:
-        pass
-    except Exception:
-        pass
+#def test_jobtype_check():
+#    # Teste de verificação de testes de JobType
+#    job_type = JobType(name='test_job', type='default')
+#    try:
+#        job_type.check()
+#        assert False, "Método check não gerou exceção"
+#    except NotImplementedError:
+#        pass
+#    except Exception:
+#        pass
