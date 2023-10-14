@@ -16,7 +16,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: 3.x  # Especifique a versão do Python que você precisa
+        python-version: 3.10  # Especifique a versão do Python que você precisa
 
     - name: Install dependencies
       run: pip install -r requirements.txt  # Substitua pelo caminho correto do seu arquivo requirements.txt
@@ -25,4 +25,4 @@ jobs:
       run: |
         ls -la
         cd test
-        pytest
+        pytest -vv
