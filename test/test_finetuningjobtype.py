@@ -17,25 +17,25 @@ def test_finetuning_create():
     assert finetuning_job.uuid is not None
     shutil.rmtree(destination_folder, ignore_errors=True)
 
-# def test_finetuning_check():
-#     # Teste de verificação de testes de FineTuningJobType
-#     finetuning_job = FineTuningJobType('finetuning_test')
-#     destination_folder = 'test_destination'
-#     finetuning_job.create(destination_folder)
-#     os.chdir(os.path.join(destination_folder, 'finetuning_test'))
-#     try:
-#         retcode, stdout = finetuning_job.check()
+def test_finetuning_check():
+    # Teste de verificação de testes de FineTuningJobType
+    finetuning_job = FineTuningJobType('finetuning_test')
+    destination_folder = 'test_destination'
+    finetuning_job.create(destination_folder)
+    os.chdir(os.path.join(destination_folder, 'finetuning_test'))
+    try:
+        retcode, stdout = finetuning_job.check()
 
-#         # Agora, 'output' contém a saída do comando como uma string, e 'return_code' contém o código de retorno
-#         print("Saída do comando:\n", stdout)
-#         print("Código de retorno:", retcode)
+        # Agora, 'output' contém a saída do comando como uma string, e 'return_code' contém o código de retorno
+        print("Saída do comando:\n", stdout)
+        print("Código de retorno:", retcode)
 
-#         assert (retcode == 1)  # Método check está implementado
-#     except:
-#         assert False, "Método check não deveria gerar exceção"
-#     os.chdir('../../')
-#     shutil.rmtree(destination_folder, ignore_errors=True)
-#     assert True
+        assert (retcode == 1)  # Método check está implementado
+    except:
+        assert False, "Método check não deveria gerar exceção"
+    os.chdir('../../')
+    shutil.rmtree(destination_folder, ignore_errors=True)
+    assert True
 
 # # Variável compartilhada para armazenar informações da thread
 # #container_info = {}
