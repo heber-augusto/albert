@@ -71,7 +71,7 @@ class CreateCommand(JobCommand):
 
     def add_parser(self, subparsers):
         parser = subparsers.add_parser("create", help="Cria um novo job type.")
-        parser.add_argument("jobtype", choices=["inference", "finetune"], help="Tipo de job (inference ou finetune).")
+        parser.add_argument("jobtype", choices=list(job_type_name_2_class.keys()), help="Tipo de job (inference ou finetune).")
         parser.add_argument("folder_name", help="Nome de identificação da pasta.")
         parser.add_argument("destination_folder", nargs="?", help="Pasta de destino opcional.")
 
