@@ -65,7 +65,7 @@ class JobType:
         """
         raise NotImplementedError("Método run não implementado")
 
-    def deploy(self, destination_folder: str):
+    def deploy(self):
         """
         Realiza o deploy do job. Deve ser implementado nas classes especializadas.
         Args:
@@ -161,13 +161,53 @@ class InferenceJobType(JobType):
 
 
 
-    def deploy(self, destination_folder: str):
+    def deploy(self):
         """
         Realiza o deploy do modelo de inferência especificado.
         Args:
             destination_folder (str): Caminho para a pasta onde o código do job está presente.        
         """
-        print(f'Realizando deploy do modelo: {self.name}')
+        """
+        Executa a inferência do modelo de inferência especificado.
+
+        """
+        run_folder = os.path.join('.', 'deploy')
+
+        # Primeiro, altera permissão do shell de deploy
+        chmod_command = ["chmod", "+x", "deploy.sh"]
+        subprocess.run(chmod_command, cwd=run_folder)
+
+        # Em seguida, execute o contêiner Docker
+        run_command = ["sh", "./deploy.sh"]
+        
+        run_process = subprocess.Popen(
+             run_command,
+             stdout=subprocess.PIPE,
+             stderr=subprocess.STDOUT,
+             text=True,
+             cwd=run_folder
+        )
+        # Aguarda a conclusão do processo ou sinal SIGINT (Ctrl+C)
+        output = ""
+        try:
+            # Leitura e exibição contínua da saída do Deploy
+            for line in run_process.stdout:
+                print(line, end='')
+                output += line
+
+            run_process.wait()
+        except KeyboardInterrupt:
+            # Tratamento de Ctrl+C
+            print("Recebido Ctrl+C. Encerrando o Deploy.")
+
+        # Obtém o código de retorno do processo
+        return_code = run_process.returncode
+
+        if return_code is None or return_code == 0:
+            print(f'Deploy para {self.name} concluído com sucesso.')
+        else:
+            print(f'Deploy para {self.name} falharam.')
+        return return_code, output
 
 class FineTuningJobType(JobType):
     """
@@ -196,7 +236,7 @@ class FineTuningJobType(JobType):
         """
         print(f'Executando fine-tuning do modelo: {self.config["model_to_finetune"]}')
 
-    def deploy(self, destination_folder: str):
+    def deploy(self):
         """
         Realiza o deploy do modelo fine-tuned especificado.
         Args:

@@ -23,8 +23,7 @@ def test_jobtype_deploy():
     # Teste de deploy de JobType
     job_type = JobType(name='test_job', type='default')
     try:
-        destination_folder = 'test_destination'
-        job_type.deploy(destination_folder)
+        job_type.deploy()
         assert False, "Método deploy não gerou exceção"
     except NotImplementedError:
         pass

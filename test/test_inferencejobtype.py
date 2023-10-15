@@ -30,8 +30,7 @@ def test_inference_deploy():
     # Teste de deploy de InferenceJobType
     inference_job = InferenceJobType('inference_test')
     try:
-        destination_folder = 'test_destination'
-        inference_job.deploy(destination_folder)
+        inference_job.deploy()
         assert True  # Método deploy está implementado
     except NotImplementedError:
         assert False, "Método deploy não deveria gerar exceção"
@@ -91,3 +90,39 @@ def test_inference_run():
 
     )
     assert not is_application_running()
+
+
+# Função para iniciar o contêiner Docker em uma thread separada
+def threaded_deploy_command(**kwargs):
+    container_info = kwargs['container_info']
+    # Teste de verificação de testes de InferenceJobType
+    inference_job = InferenceJobType('inference_test')
+    destination_folder = 'test_destination'
+    inference_job.create(destination_folder)
+    try:
+        os.chdir(os.path.join(destination_folder, 'inference_test'))
+        retcode, stdout = inference_job.deploy()
+
+        # Agora, 'output' contém a saída do comando como uma string, e 'return_code' contém o código de retorno
+        container_info.stdout = stdout
+        container_info.retcode = retcode
+        assert (retcode == 0)  # Execução do container não gera erro
+    except:
+        assert False, "Método deploy não deveria gerar exceção"
+    os.chdir('../../')        
+    shutil.rmtree(destination_folder, ignore_errors=True)
+    assert True
+
+
+# def test_inference_deploy():
+#     #testa se aplicação está rodando no começo
+#     assert not is_application_running()
+#     create_thread_to_execute(
+#         threaded_run_function=threaded_deploy_command, 
+#         job_type = 'inference', 
+#         job_name = 'inference_test'       
+
+#     )
+#     assert not is_application_running()
+
+
