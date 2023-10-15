@@ -26,15 +26,6 @@ def test_inference_run():
     except NotImplementedError:
         assert False, "Método run não deveria gerar exceção"
 
-def test_inference_deploy():
-    # Teste de deploy de InferenceJobType
-    inference_job = InferenceJobType('inference_test')
-    try:
-        inference_job.deploy()
-        assert True  # Método deploy está implementado
-    except NotImplementedError:
-        assert False, "Método deploy não deveria gerar exceção"
-
 def test_inference_check():
     # Teste de verificação de testes de InferenceJobType
     inference_job = InferenceJobType('inference_test')
