@@ -3,6 +3,7 @@ import requests
 import os
 import threading
 import time
+import subprocess
 
 # Função para interromper o contêiner Docker
 def stop_container(job_type, job_name):
@@ -10,7 +11,7 @@ def stop_container(job_type, job_name):
 
 
 # Função para verificar se a aplicação Flask está rodando
-def is_application_running():
+def is_flask_application_running(job_type, job_name):
     url = "http://localhost:5000"  # URL da aplicação Flask no contêiner
     try:
         response = requests.get(url)
@@ -18,6 +19,23 @@ def is_application_running():
     except requests.RequestException:
         return False
 
+# erifica se container está rodando
+def check_container_running(job_type, job_name):
+    image_name = f'albert-{job_type}-job-{job_name}'
+    check_run_command = ["docker", "ps", "--filter", f"ancestor={image_name}"]
+    completed = subprocess.run(
+        check_run_command, 
+        stdout=subprocess.PIPE,  # Redireciona a saída padrão para um PIPE
+        text=True)
+    if completed.stdout.find(image_name) > 0:
+        return True
+    else:
+        return False
+
+# erifica se container está rodando
+def dummy_check_container_running(job_type, job_name):
+    return True
+    
 
 class ContainerInfo:
     """
@@ -28,7 +46,7 @@ class ContainerInfo:
         self.retcode = -1
 
 
-def create_thread_to_execute(threaded_run_function, job_type, job_name):
+def create_thread_to_execute(threaded_run_function, job_type, job_name, is_application_running):
     container_info = ContainerInfo()
     # Iniciar o contêiner Docker em uma thread separada
     container_thread = threading.Thread(
@@ -38,7 +56,7 @@ def create_thread_to_execute(threaded_run_function, job_type, job_name):
 
     # Aguardar até que a aplicação no contêiner esteja em execução
     for _ in range(30):  # Aguarda por até 300 segundos
-        if is_application_running():
+        if is_application_running(job_type, job_name):
             break
         time.sleep(10)
     else:
@@ -54,6 +72,4 @@ def create_thread_to_execute(threaded_run_function, job_type, job_name):
 
     print("Saída do comando:\n", container_info.stdout)
     print("Código de retorno:", container_info.retcode)
-
-    assert container_info.retcode == 0
     

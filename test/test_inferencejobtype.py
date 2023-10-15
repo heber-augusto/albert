@@ -64,14 +64,17 @@ def threaded_run_command(**kwargs):
 
 def test_inference_run():
     #testa se aplicação está rodando no começo
-    assert not is_application_running()
+    job_type = 'inference' 
+    job_name = 'inference_test'       
+    assert not is_flask_application_running(job_type, job_name)
     create_thread_to_execute(
         threaded_run_function=threaded_run_command, 
         job_type = 'inference', 
-        job_name = 'inference_test'       
+        job_name = 'inference_test',
+        is_application_running = is_flask_application_running     
 
     )
-    assert not is_application_running()
+    assert not is_flask_application_running(job_type, job_name)
 
 
 # # Função para iniciar o contêiner Docker em uma thread separada
@@ -98,13 +101,15 @@ def test_inference_run():
 
 # def test_inference_deploy():
 #     #testa se aplicação está rodando no começo
-#     assert not is_application_running()
+#    job_type = 'inference' 
+#    job_name = 'inference_test'   
+#     assert not is_flask_application_running(job_type, job_name)
 #     create_thread_to_execute(
 #         threaded_run_function=threaded_deploy_command, 
-#         job_type = 'inference', 
-#         job_name = 'inference_test'       
-
+#         job_type = job_type, 
+#         job_name = job_name,
+#         is_application_running = is_flask_application_running       
 #     )
-#     assert not is_application_running()
+#     assert not is_flask_application_running(job_type, job_name)
 
 

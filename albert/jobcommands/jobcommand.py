@@ -91,7 +91,12 @@ class CheckCommand(JobCommand):
 
         job_type_class = self.get_job_class(job_type)
         job_type_instance = job_type_class(config['name'])
-        return job_type_instance.check()
+        retcode, stdout = job_type_instance.check()
+    
+        # Agora, 'output' contém a saída do comando como uma string, e 'return_code' contém o código de retorno
+        print("Saída do comando:\n", stdout)
+        print("Código de retorno:", retcode)
+        return retcode, stdout
 
     def add_parser(self, subparsers):
         subparsers.add_parser("check", help="Verifica os testes do job type atual.")
