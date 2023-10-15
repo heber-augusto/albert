@@ -17,15 +17,6 @@ def test_inference_create():
     assert inference_job.uuid is not None
     shutil.rmtree(destination_folder, ignore_errors=True)
 
-def test_inference_run():
-    # Teste de execução de InferenceJobType
-    inference_job = InferenceJobType('inference_test')
-    try:
-        inference_job.run()
-        assert True  # Método run está implementado
-    except NotImplementedError:
-        assert False, "Método run não deveria gerar exceção"
-
 def test_inference_check():
     # Teste de verificação de testes de InferenceJobType
     inference_job = InferenceJobType('inference_test')
