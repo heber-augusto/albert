@@ -1,6 +1,6 @@
 # code.py
 
-def load_generative_model(model_dir):
+def load_generative_model():
     """
     Carrega o modelo de generative AI a ser fine-tuned.
 
@@ -13,7 +13,7 @@ def load_generative_model(model_dir):
     #return model
     raise NotImplementedError()
 
-def fine_tune_model(model, input_data, output_dir):
+def fine_tune_model(model, input_data, output_dir, parameters):
     """
     Realiza o fine-tuning do modelo de generative AI.
 

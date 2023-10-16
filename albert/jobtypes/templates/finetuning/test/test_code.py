@@ -12,5 +12,6 @@ def test_fine_tune_model():
     model = None
     input_data = None
     output_dir = None    
-    inference = fine_tune_model(model, input_data, output_dir)
+    parameters = None
+    inference = fine_tune_model(model, input_data, output_dir, parameters)
     assert inference != None    
