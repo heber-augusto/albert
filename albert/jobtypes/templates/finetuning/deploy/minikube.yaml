@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: inference-test-deployment
+  name: finetuning-test-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: inference-test
+      app: finetuning-test
   template:
     metadata:
       labels:
-        app: inference-test
+        app: finetuning-test
     spec:
       containers:
-        - name: albert-inference-container
-          image: albert-inference-job-minikube:latest
+        - name: albert-finetuning-container
+          image: albert-finetuning-job-minikube:latest
           imagePullPolicy: Never
           ports:
             - containerPort: 5000
@@ -22,12 +22,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: albert-inference-service
+  name: albert-finetuning-service
 spec:
   selector:
-    app: inference-test
-  ports:
-  - protocol: TCP
-    port: 5000
-    targetPort: 5000
-  type: NodePort
+    app: finetuning-test
