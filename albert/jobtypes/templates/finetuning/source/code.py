@@ -1,6 +1,6 @@
 # code.py
 
-def load_generative_model():
+def load_generative_model(model_dir):
     """
     Carrega o modelo de generative AI a ser fine-tuned.
 

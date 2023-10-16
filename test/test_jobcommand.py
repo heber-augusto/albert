@@ -82,14 +82,15 @@ def threaded_run_inference_command(**kwargs):
 def test_run_inference_command():
 
      #testa se aplicação está rodando no começo
-    assert not is_application_running()
+    assert not is_flask_application_running()
     create_thread_to_execute(
         threaded_run_function=threaded_run_inference_command, 
         job_type = 'inference', 
-        job_name = 'inference_test'       
+        job_name = 'inference_test',
+        is_application_running=is_flask_application_running       
 
     )
-    assert not is_application_running()
+    assert not is_flask_application_running()
 
 
 

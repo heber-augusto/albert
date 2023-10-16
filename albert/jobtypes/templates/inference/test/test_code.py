@@ -3,7 +3,9 @@ from source.code import *
 
 def test_load_generative_model():
     # Teste de verificação de testes de InferenceJobType
-    ret_model = load_generative_model()
+    model_dir = ''
+    parameters = ''
+    ret_model = load_generative_model(model_dir, parameters)
     assert ret_model != None
 
 
