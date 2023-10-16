@@ -8,6 +8,10 @@ Welcome to albert's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   command_create
+   command_run
+   command_deploy
+   command_test
 
 Indices and tables
 ==================
