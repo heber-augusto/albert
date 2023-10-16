@@ -1,6 +1,6 @@
 # code.py
 
-def load_generative_model():
+def load_generative_model(model_dir = None):
     """
     Carrega o modelo de generative AI a ser fine-tuned.
 
@@ -32,7 +32,7 @@ def fine_tune_model(model, input_data, output_dir, parameters):
 
 def main():
     # Carregue o modelo
-    generative_model = load_generative_model()
+    generative_model = load_generative_model(model_dir = None)
 
     # Defina o caminho para os dados de entrada
     input_data = "/app/input/input_data.txt"  # Altere conforme necessário

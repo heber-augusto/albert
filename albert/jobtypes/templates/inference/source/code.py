@@ -1,6 +1,6 @@
 # code.py
 
-def load_generative_model(model_dir, parameters):
+def load_generative_model(model_dir = None):
     """
     Função a ser implementada pelo usuário para carregar o modelo de Generative AI.
 
