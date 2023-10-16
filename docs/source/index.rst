@@ -1,19 +1,19 @@
 .. Meu Projeto Documentation documentation master file, created by
    sphinx-quickstart on Tue Oct 10 10:00:00 2023.
 
-Welcome to albert's documentation!
+Olá, esta é a documentação da biblioteca Albert!
 =====================================
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Conteúdo:
 
    command_create
    command_run
    command_deploy
    command_check
 
-Indices and tables
+Índices e tabelas
 ==================
 
 * :ref:`genindex`
