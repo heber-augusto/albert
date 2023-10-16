@@ -58,10 +58,7 @@ O Albert é uma ferramenta poderosa que ajuda a acelerar o desenvolvimento de pr
    command_create
    command_run
    command_deploy
-   command_test
-   jobcommand
-   jobtype
-   outros_arquivos
+   command_check
 
 Indices and tables
 ==================
