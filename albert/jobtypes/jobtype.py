@@ -63,43 +63,8 @@ class JobType:
         Args:
             destination_folder (str): Caminho para a pasta onde o código do job está presente.        
         """
-        run_folder = os.path.join('.', 'source')
+        raise NotImplementedError("Método deploy não implementado")
 
-        # Primeiro, construa a imagem Docker
-        build_command = ["docker", "build", "-t", f"albert-finetuning-job-{self.name}", "."]
-        subprocess.run(build_command, cwd=run_folder)
-
-        # Em seguida, execute o contêiner Docker
-        run_command = ["docker", "run", "-p","5000:5000", "-t", f"albert-finetuning-job-{self.name}"]
-        
-        run_process = subprocess.Popen(
-             run_command,
-             stdout=subprocess.PIPE,
-             stderr=subprocess.STDOUT,
-             text=True,
-             cwd=run_folder
-        )
-        # Aguarda a conclusão do processo ou sinal SIGINT (Ctrl+C)
-        output = ""
-        try:
-            # Leitura e exibição contínua da saída do contêiner
-            for line in run_process.stdout:
-                print(line, end='')
-                output += line
-
-            run_process.wait()
-        except KeyboardInterrupt:
-            # Tratamento de Ctrl+C
-            print("Recebido Ctrl+C. Encerrando o contêiner.")
-
-        # Obtém o código de retorno do processo
-        return_code = run_process.returncode
-
-        if return_code is None or return_code == 0:
-            print(f'Build para {self.name} concluído com sucesso.')
-        else:
-            print(f'Build para {self.name} falharam.')
-        return return_code, output
 
     def deploy(self):
         """
@@ -270,7 +235,42 @@ class FineTuningJobType(JobType):
         Args:
             destination_folder (str): Caminho para a pasta onde o código do job está presente.        
         """
-        print(f'Executando fine-tuning do modelo: {self.config["model_to_finetune"]}')
+        run_folder = os.path.join('.', 'source')
+        # Primeiro, construa a imagem Docker
+        build_command = ["docker", "build", "-t", f"albert-finetuning-job-{self.name}", "."]
+        subprocess.run(build_command, cwd=run_folder)
+
+        # Em seguida, execute o contêiner Docker
+        run_command = ["docker", "run", "-p","5000:5000", "-t", f"albert-finetuning-job-{self.name}"]
+        
+        run_process = subprocess.Popen(
+             run_command,
+             stdout=subprocess.PIPE,
+             stderr=subprocess.STDOUT,
+             text=True,
+             cwd=run_folder
+        )
+        # Aguarda a conclusão do processo ou sinal SIGINT (Ctrl+C)
+        output = ""
+        try:
+            # Leitura e exibição contínua da saída do contêiner
+            for line in run_process.stdout:
+                print(line, end='')
+                output += line
+
+            run_process.wait()
+        except KeyboardInterrupt:
+            # Tratamento de Ctrl+C
+            print("Recebido Ctrl+C. Encerrando o contêiner.")
+
+        # Obtém o código de retorno do processo
+        return_code = run_process.returncode
+
+        if return_code is None or return_code == 0:
+            print(f'Build para {self.name} concluído com sucesso.')
+        else:
+            print(f'Build para {self.name} falharam.')
+        return return_code, output
 
     def deploy(self):
         """
