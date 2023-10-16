@@ -44,8 +44,21 @@ def threaded_run_command(**kwargs):
     finetuning_job = FineTuningJobType('finetuning_test')
     destination_folder = 'test_destination'
     finetuning_job.create(destination_folder)
+
+    template_code_path = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        'template_files',
+        'finetuning_code.py'
+    )
+
+
     try:
         os.chdir(os.path.join(destination_folder, 'finetuning_test'))
+
+        shutil.copyfile(
+            template_code_path, 
+            './source/code.py')
+
         retcode, stdout = finetuning_job.run()
 
         # Agora, 'output' contém a saída do comando como uma string, e 'return_code' contém o código de retorno

@@ -47,8 +47,22 @@ def threaded_run_command(**kwargs):
     inference_job = InferenceJobType('inference_test')
     destination_folder = 'test_destination'
     inference_job.create(destination_folder)
+
+    template_code_path = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        'template_files',
+        'inference_code.py'
+    )
+
+
     try:
         os.chdir(os.path.join(destination_folder, 'inference_test'))
+
+        shutil.copyfile(
+            template_code_path, 
+            './source/code.py')
+
+
         retcode, stdout = inference_job.run()
 
         # Agora, 'output' contém a saída do comando como uma string, e 'return_code' contém o código de retorno

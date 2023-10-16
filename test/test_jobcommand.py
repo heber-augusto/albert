@@ -49,6 +49,7 @@ def test_check_inference_command():
     os.chdir('../')
     shutil.rmtree('inference_test', ignore_errors=True)
 
+
 # Função para iniciar o contêiner Docker em uma thread separada
 def threaded_run_inference_command(**kwargs):
     container_info = kwargs['container_info']    
@@ -56,9 +57,17 @@ def threaded_run_inference_command(**kwargs):
     args = parser.parse_args(["create", "inference", "inference_test", '.'])
     create_command = CreateCommand(args)
     create_command.execute()
-
+    template_code_path = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        'template_files',
+        'inference_code.py'
+    )
     try:
         os.chdir('inference_test')
+
+        shutil.copyfile(
+            template_code_path, 
+            './source/code.py')
     
         parser = load_and_config_parser()
         args = parser.parse_args(["run"])
@@ -69,9 +78,9 @@ def threaded_run_inference_command(**kwargs):
         # Agora, 'output' contém a saída do comando como uma string, e 'return_code' contém o código de retorno
         container_info.stdout = stdout
         container_info.retcode = retcode
-        assert (container_info.retcode != 0)  # Execução do container recem criado, sempre gera erro
-    except NotImplementedError:
-        assert True 
+        assert (container_info.retcode == 0)  # Execução do container criado não deve gerar erro
+    except:
+        assert False
     os.chdir('../')        
     shutil.rmtree("inference_test", ignore_errors=True)
     assert True
