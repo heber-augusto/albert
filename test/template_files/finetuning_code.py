@@ -39,9 +39,11 @@ def main():
 
     # Defina o diretório de saída
     output_dir = "/app/output"  # Altere conforme necessário
+    # parâmetros
+    parameters = []
 
     # Realize o fine-tuning
-    fine_tune_model(generative_model, input_data, output_dir)
+    fine_tune_model(generative_model, input_data, output_dir, parameters)
 
 
 if __name__ == "__main__":

@@ -64,10 +64,10 @@ def threaded_run_command(**kwargs):
         # Agora, 'output' contém a saída do comando como uma string, e 'return_code' contém o código de retorno
         container_info.stdout = stdout
         container_info.retcode = retcode
-        assert (retcode == 1)  # Execução do container gera erro pois funções não estão implementadas
-        assert (stdout.find('raise NotImplementedError()') > 0)
+        assert (retcode == 0)  # Execução do container não gera erro
     except:
         assert False, "Método run não deveria gerar exceção"
+
     os.chdir('../../')        
     shutil.rmtree(destination_folder, ignore_errors=True)
     assert True
