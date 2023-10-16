@@ -9,5 +9,4 @@ extensions = [
     'sphinx.ext.viewcode',
 ]
 
-# Configurações do tema da documentação (pode ser personalizado)
-html_theme = 'sphinx_rtd_theme'
+

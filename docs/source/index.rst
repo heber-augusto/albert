@@ -11,7 +11,7 @@ Welcome to albert's documentation!
    command_create
    command_run
    command_deploy
-   command_test
+   command_check
 
 Indices and tables
 ==================
