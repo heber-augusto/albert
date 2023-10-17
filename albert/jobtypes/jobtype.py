@@ -241,7 +241,7 @@ class FineTuningJobType(JobType):
         subprocess.run(build_command, cwd=run_folder)
 
         # Em seguida, execute o contêiner Docker
-        run_command = ["docker", "run", "-p","5000:5000", "-t", f"albert-finetuning-job-{self.name}"]
+        run_command = ["docker", "run", "-t", f"albert-finetuning-job-{self.name}"]
         
         run_process = subprocess.Popen(
              run_command,
