@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Comando Create &#8212; Biblioteca Albert  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=4f649999" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=039e1c02" />
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Comando Run" href="command_run.html" />
+    <link rel="prev" title="Documentação do Albert" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="comando-create">
+<span id="command-create"></span><h1>Comando Create<a class="headerlink" href="#comando-create" title="Link to this heading">¶</a></h1>
+<p>O comando “create” da biblioteca “albert” é usado para criar um novo tipo de trabalho (job type) que pode ser de dois tipos: “inference” ou “finetuning”. O tipo de trabalho a ser criado é especificado como argumento.</p>
+<p>Este comando é útil para iniciar um novo projeto de machine learning, seja para tarefas de inferência de modelos pré-treinados ou para ajuste fino (fine-tuning).</p>
+<section id="uso">
+<h2>Uso<a class="headerlink" href="#uso" title="Link to this heading">¶</a></h2>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>albert<span class="w"> </span>create<span class="w"> </span>&lt;jobtype&gt;<span class="w"> </span>&lt;folder_name&gt;<span class="w"> </span><span class="o">[</span>&lt;destination_folder&gt;<span class="o">]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><cite>&lt;jobtype&gt;</cite>: Especifique o tipo de trabalho, que pode ser “inference” ou “finetuning”.</p></li>
+<li><p><cite>&lt;folder_name&gt;</cite>: Forneça um nome de pasta para identificar o trabalho.</p></li>
+<li><p><cite>[&lt;destination_folder&gt;]</cite> (opcional): Especifique a pasta de destino onde o trabalho será criado. Se não fornecido, a pasta atual será usada.</p></li>
+</ul>
+</section>
+<section id="exemplo">
+<h2>Exemplo<a class="headerlink" href="#exemplo" title="Link to this heading">¶</a></h2>
+<p>Para criar um novo trabalho de inferência com o nome “my_inference_job”, você pode executar o seguinte comando:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>albert<span class="w"> </span>create<span class="w"> </span>inference<span class="w"> </span>my_inference_job
+</pre></div>
+</div>
+<p>Isso criará a estrutura de pastas necessária para o trabalho de inferência.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Certifique-se de ter configurado um arquivo de configuração apropriado para seu trabalho antes de usar o comando “create”. Este comando é o primeiro passo na criação de um novo projeto.</p>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Biblioteca Albert</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Conteúdo da Documentação</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Comando Create</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#uso">Uso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#exemplo">Exemplo</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="command_run.html">Comando Run</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_deploy.html">Comando Deploy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command_check.html">Comando Check</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Documentação do Albert</a></li>
+      <li>Next: <a href="command_run.html" title="next chapter">Comando Run</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 7.2.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/command_create.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
